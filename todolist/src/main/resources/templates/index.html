@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>My Todo List</h1>
+        <div class="user-info">
+            <span th:text="${user.fullName}"></span>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </header>
+
+    <div class="todo-form">
+        <form th:action="@{/todos}" method="post">
+            <input type="text" name="title" placeholder="What needs to be done?" required>
+            <input type="text" name="description" placeholder="Description (optional)">
+            <input type="datetime-local" name="dueDate">
+            <button type="submit">Add Todo</button>
+        </form>
+    </div>
+
+    <div class="todo-list">
+        <div th:each="todo : ${todos}" class="todo-item">
+            <input type="checkbox" th:checked="${todo.completed}"
+                   th:onchange="'updateTodoStatus(' + ${todo.id} + ', this.checked)'">
+            <span th:text="${todo.title}" th:class="${todo.completed ? 'completed' : ''}"></span>
+            <span class="due-date" th:if="${todo.dueDate}"
+                  th:text="${#temporals.format(todo.dueDate, 'yyyy-MM-dd HH:mm')}"></span>
+            <button th:onclick="'deleteTodo(' + ${todo.id} + ')'">Delete</button>
+        </div>
+    </div>
+</div>
+<script src="/js/todo.js"></script>
+</body>
+</html>
