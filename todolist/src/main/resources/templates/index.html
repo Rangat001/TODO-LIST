@@ -1,39 +1,100 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Todo List</title>-->
+<!--    <link rel="stylesheet" href="/css/style.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <header>-->
+<!--        <h1>My Todo List</h1>-->
+<!--        <div class="user-info">-->
+<!--            <span th:text="${user.fullName}"></span>-->
+<!--            <a th:href="@{/logout}">Logout</a>-->
+<!--        </div>-->
+<!--    </header>-->
+
+<!--    <div class="todo-form">-->
+<!--        <form th:action="@{/todos}" method="post">-->
+<!--            <input type="text" name="title" placeholder="What needs to be done?" required>-->
+<!--            <input type="text" name="description" placeholder="Description (optional)">-->
+<!--            <input type="datetime-local" name="dueDate">-->
+<!--            <button type="submit">Add Todo</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--    <div class="todo-list">-->
+<!--        <div th:each="todo : ${todos}" class="todo-item">-->
+<!--            <input type="checkbox" th:checked="${todo.completed}"-->
+<!--                   th:onchange="'updateTodoStatus(' + ${todo.id} + ', this.checked)'">-->
+<!--            <span th:text="${todo.title}" th:class="${todo.completed ? 'completed' : ''}"></span>-->
+<!--            <span class="due-date" th:if="${todo.dueDate}"-->
+<!--                  th:text="${#temporals.format(todo.dueDate, 'yyyy-MM-dd HH:mm')}"></span>-->
+<!--            <button th:onclick="'deleteTodo(' + ${todo.id} + ')'">Delete</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script src="/js/todo.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Todo List</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Todo List - Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <header>
-        <h1>My Todo List</h1>
-        <div class="user-info">
-            <span th:text="${user.fullName}"></span>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-    </header>
-
-    <div class="todo-form">
-        <form th:action="@{/todos}" method="post">
-            <input type="text" name="title" placeholder="What needs to be done?" required>
-            <input type="text" name="description" placeholder="Description (optional)">
-            <input type="datetime-local" name="dueDate">
-            <button type="submit">Add Todo</button>
-        </form>
+    <div class="header">
+        <h1>Welcome to Todo List</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
+    <div id="userName"></div>
 
-    <div class="todo-list">
-        <div th:each="todo : ${todos}" class="todo-item">
-            <input type="checkbox" th:checked="${todo.completed}"
-                   th:onchange="'updateTodoStatus(' + ${todo.id} + ', this.checked)'">
-            <span th:text="${todo.title}" th:class="${todo.completed ? 'completed' : ''}"></span>
-            <span class="due-date" th:if="${todo.dueDate}"
-                  th:text="${#temporals.format(todo.dueDate, 'yyyy-MM-dd HH:mm')}"></span>
-            <button th:onclick="'deleteTodo(' + ${todo.id} + ')'">Delete</button>
-        </div>
-    </div>
+    <!-- Add your todo list content here -->
+
 </div>
-<script src="/js/todo.js"></script>
+<script>
+    // Display user name
+    const userName = localStorage.getItem('user_name');
+    if (userName) {
+        document.getElementById('userName').textContent = `Welcome, ${userName}!`;
+    }
+
+    function logout() {
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('user_email');
+        localStorage.removeItem('user_name');
+        window.location.href = '/login';
+    }
+
+    // Check if user is authenticated
+    if (!localStorage.getItem('jwt_token')) {
+        window.location.href = '/login';
+    }
+</script>
 </body>
 </html>
