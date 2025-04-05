@@ -24,15 +24,13 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**").permitAll()
-                        .anyRequest().authenticated()
-                ).formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
-                        .permitAll()
+                        .requestMatchers(
+                                "/public/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        ).permitAll()
+                        .requestMatchers("/todo/**", "/user/**").authenticated()
                 ).sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // 🔄 Stateless for JWT
                 )

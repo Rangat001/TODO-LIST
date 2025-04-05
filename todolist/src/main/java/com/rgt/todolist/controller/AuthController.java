@@ -15,10 +15,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/public")
 public class AuthController {
 
     @Autowired
@@ -91,39 +93,16 @@ public class AuthController {
             String token = jwTutil.generateToken(authRequest.getEmail());
 
             // Create success response
-            AuthResponse response = new AuthResponse(
-                    token,
-                    user.getEmail(),
-                    user.getFullName(),
-                    "Login successful"
-            );
+//            AuthResponse response = new AuthResponse(
+//                    token
+//            );
 
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(response);
+            return new ResponseEntity<>(token,HttpStatus.OK);
 
-        } catch (AuthenticationException e) {
-            // Authentication failed response
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(new AuthResponse(
-                            null,
-                            null,
-                            null,
-                            "Invalid email or password"
-                    ));
-        } catch (Exception e) {
+        }
+          catch (Exception e) {
             // General error response
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(new AuthResponse(
-                            null,
-                            null,
-                            null,
-                            "An error occurred during login"
-                    ));
+            return  new ResponseEntity<>("Incorrect Credential",HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -170,6 +149,10 @@ public class AuthController {
                             "Invalid token"
                     ));
         }
+    }
+    @GetMapping("/index")
+    public String index() {
+        return "index";  // This will look for index.html in templates folder
     }
 
 }

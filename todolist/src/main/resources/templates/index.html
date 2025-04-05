@@ -41,60 +41,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Todo List - Dashboard</title>
+    <title>Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .logout-btn {
-            background-color: #dc3545;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <h1>Welcome to Todo List</h1>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-    <div id="userName"></div>
-
-    <!-- Add your todo list content here -->
+    <h1>Dashboard</h1>
+    <h2 id="welcomeText">Welcome!</h2>
 
 </div>
+
 <script>
-    // Display user name
-    const userName = localStorage.getItem('user_name');
-    if (userName) {
-        document.getElementById('userName').textContent = `Welcome, ${userName}!`;
-    }
+    window.onload = async function () {
+        const token = localStorage.getItem('jwt_token');
+//
+//        // If no token found, redirect to login
+//        if (!token) {
+//            window.location.href = '/public/login';
+//            return;
+//        }
 
-    function logout() {
-        localStorage.removeItem('jwt_token');
-        localStorage.removeItem('user_email');
-        localStorage.removeItem('user_name');
-        window.location.href = '/login';
-    }
+        try {
+            const response = await fetch('/public/validate', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json'
+                }
+            });
 
-    // Check if user is authenticated
-    if (!localStorage.getItem('jwt_token')) {
-        window.location.href = '/login';
-    }
+            if (!response.ok) {
+                // Token is invalid or expired
+//                localStorage.removeItem('jwt_token');
+//                window.location.href = '/public/login';
+            } else {
+                const data = await response.json();
+                console.log('Token is valid. User data:', data);
+
+                // Display user full name
+                const welcomeText = document.getElementById('welcomeText');
+                if (welcomeText && data.fullName) {
+                    welcomeText.textContent = `Welcome, ${data.fullName}!`;
+                }
+            }
+
+        } catch (error) {
+            console.error('Validation failed:', error);
+//            localStorage.removeItem('jwt_token');
+//            window.location.href = '/public/login';
+        }
+    };
 </script>
+
 </body>
 </html>

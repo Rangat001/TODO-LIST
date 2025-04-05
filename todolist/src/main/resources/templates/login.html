@@ -64,12 +64,19 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class ="btn">Login</button>
         </div>
     </form>
+    <div style="text-align: center; margin-top: 15px;">
+        <a th:href="@{/public/signup}">Don't have an account? Signup</a>
+    </div>
 </div>
 </body>
 <script>
+//    const temp =  localStorage.jwt_token;
+//    if(temp!= null){
+//        window.location.href = '/todo/index';
+//    }
     document.addEventListener('DOMContentLoaded', function() {
         const loginForm = document.getElementById('loginForm');
         const errorDiv = document.querySelector('.alert-danger');
@@ -84,7 +91,7 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/login', {
+                const response = await fetch('/public/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -96,29 +103,21 @@
                     })
                 });
 
-                // First check if the response is ok
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Login failed');
+                if (response.ok) {
+                        const token = await response.text();
+                        console.log(token);
+                        // Store the token in localStorage
+                        localStorage.setItem('jwt_token', token);
+                        // redirect to index.html
+                        window.location.href = "/public/index";
+                } else {
+                    const error = await response.text();
+                    errorDiv.textContent = err || 'Login failed. Please check your credentials.';
+                    errorDiv.style.display = 'block';
                 }
-
-                try {
-                    const data = await response.json();
-                    // Store the JWT token and user info
-                    localStorage.setItem('jwt_token', data.token);
-                    localStorage.setItem('user_email', data.email);
-                    localStorage.setItem('user_name', data.fullName);
-
-                    // Redirect to home page
-                    window.location.href = '/';
-                } catch (parseError) {
-                    console.error('Error parsing JSON:', parseError);
-                    throw new Error('Invalid response format from server');
-                }
-
             } catch (error) {
-                console.error('Login error:', error);
-                errorDiv.textContent = error.message || 'An error occurred during login. Please try again.';
+                console.error('Error:', error);
+                errorDiv.textContent = 'An error occurred. Please try again.';
                 errorDiv.style.display = 'block';
             }
         });

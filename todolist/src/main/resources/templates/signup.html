@@ -54,7 +54,7 @@
         Error creating account. Email might already be in use.
     </div>
 
-    <form th:action="@{/signup}" method="post">
+    <form th:action="@{/public/signup}" method="post">
         <div class="form-group">
             <label for="fullName">Full Name:</label>
             <input type="text" id="fullName" name="fullName" required autofocus>
@@ -75,7 +75,7 @@
         </div>
 
         <div style="text-align: center; margin-top: 15px;">
-            <a th:href="@{/login}">Already have an account? Login</a>
+            <a th:href="@{/public/login}">Already have an account? Login</a>
         </div>
     </form>
 </div>
