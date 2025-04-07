@@ -41,39 +41,6 @@ public class AuthController {
         return "login";  // This will look for login.html in src/main/resources/templates/
     }
 
-//    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> checkAuth(@RequestBody AuthRequest authRequest){
-//        try {
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(),authRequest.getPassword()));
-//
-//            User user = userService.findByEmail(authRequest.getEmail());
-//
-//            // Generate JWT token
-//            String token = jwTutil.generateToken(authRequest.getEmail());
-//
-//            // Create response
-//            AuthResponse response = new AuthResponse(
-//                    token,
-//                    user.getEmail(),
-//                    user.getFullName(),
-//                    "Login successful"
-//            );
-//
-//            return ResponseEntity.ok(response);
-//
-//
-//        }catch (AuthenticationException e){
-//            return ResponseEntity
-//                    .status(HttpStatus.UNAUTHORIZED)
-//                    .body(new AuthResponse(
-//                            null,
-//                            null,
-//                            null,
-//                            "Invalid email or password"
-//                    ));
-//        }
-//    }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> checkAuth(@RequestBody AuthRequest authRequest) {
