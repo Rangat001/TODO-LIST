@@ -1,58 +1,166 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <title>Todo List</title>-->
-<!--    <link rel="stylesheet" href="/css/style.css">-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <header>-->
-<!--        <h1>My Todo List</h1>-->
-<!--        <div class="user-info">-->
-<!--            <span th:text="${user.fullName}"></span>-->
-<!--            <a th:href="@{/logout}">Logout</a>-->
-<!--        </div>-->
-<!--    </header>-->
-
-<!--    <div class="todo-form">-->
-<!--        <form th:action="@{/todos}" method="post">-->
-<!--            <input type="text" name="title" placeholder="What needs to be done?" required>-->
-<!--            <input type="text" name="description" placeholder="Description (optional)">-->
-<!--            <input type="datetime-local" name="dueDate">-->
-<!--            <button type="submit">Add Todo</button>-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <div class="todo-list">-->
-<!--        <div th:each="todo : ${todos}" class="todo-item">-->
-<!--            <input type="checkbox" th:checked="${todo.completed}"-->
-<!--                   th:onchange="'updateTodoStatus(' + ${todo.id} + ', this.checked)'">-->
-<!--            <span th:text="${todo.title}" th:class="${todo.completed ? 'completed' : ''}"></span>-->
-<!--            <span class="due-date" th:if="${todo.dueDate}"-->
-<!--                  th:text="${#temporals.format(todo.dueDate, 'yyyy-MM-dd HH:mm')}"></span>-->
-<!--            <button th:onclick="'deleteTodo(' + ${todo.id} + ')'">Delete</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<script src="/js/todo.js"></script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO List</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    .todo-list {
+        position: relative;
+    }
+
+    .create-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-size: 24px;
+        background: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+    }
+
+    .todo-card {
+        display: flex;
+        justify-content: space-between;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .todo-content {
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+
+    .todo-actions button {
+        border: none;
+        background: none;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .check-btn {
+        color: #28a745;
+    }
+
+    .edit-btn {
+        color: #ffc107;
+    }
+
+    .delete-btn {
+        color: #dc3545;
+    }
+        .check-btn,
+        .edit-btn,
+        .delete-btn {
+            font-size: 18px; /* Increase font size for these buttons */
+            width: 40px; /* Increase width */
+            height: 40px; /* Increase height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>Dashboard</h1>
-    <h2 id="welcomeText">Welcome!</h2>
+    <section class="profile">
+        <img src="profile.jpg" alt="Profile Picture">
+        <h2 id="welcomeText">John Doe</h2>
+    </section>
 
+    <section class="todo-list">
+        <div class="todo-card">
+            <div class="todo-content">
+                <h3 class="todo-title">Sample TODO</h3>
+                <span class="todo-date">2025-04-07</span>
+                <p class="todo-description">This is a sample description.</p>
+            </div>
+            <div class="todo-actions">
+                <button class="check-btn">✔</button>
+                <button class="edit-btn">✎</button>
+                <button class="delete-btn">🗑</button>
+            </div>
+        </div>
+    </section>
+    <button class="create-btn">+</button>
 </div>
 
+</body>
+</html>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const createBtn = document.querySelector('.create-btn');
+        const todoList = document.querySelector('.todo-list');
+
+        createBtn.addEventListener('click', function() {
+            const newTodo = document.createElement('div');
+            newTodo.classList.add('todo-card');
+            newTodo.innerHTML = `
+            <div class="todo-content">
+                <span class="todo-date">${new Date().toISOString().split('T')[0]}</span>
+                <h3 class="todo-title">New TODO</h3>
+                <p class="todo-description">Description...</p>
+            </div>
+            <div class="todo-actions">
+                <button class="check-btn">✔</button>
+                <button class="edit-btn">✎</button>
+                <button class="delete-btn">🗑</button>
+            </div>
+        `;
+            todoList.appendChild(newTodo);
+        });
+
+        todoList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('check-btn')) {
+                event.target.parentElement.parentElement.classList.toggle('completed');
+            }
+            if (event.target.classList.contains('edit-btn')) {
+                const todoCard = event.target.parentElement.parentElement;
+                const title = prompt('Edit Title', todoCard.querySelector('.todo-title').textContent);
+                const description = prompt('Edit Description', todoCard.querySelector('.todo-description').textContent);
+                if (title) todoCard.querySelector('.todo-title').textContent = title;
+                if (description) todoCard.querySelector('.todo-description').textContent = description;
+            }
+            if (event.target.classList.contains('delete-btn')) {
+                event.target.parentElement.parentElement.remove();
+            }
+        });
+    });
+
+    //                                                   Verification
     window.onload = async function () {
         const token = localStorage.getItem('jwt_token');
 //
@@ -93,6 +201,3 @@
         }
     };
 </script>
-
-</body>
-</html>
