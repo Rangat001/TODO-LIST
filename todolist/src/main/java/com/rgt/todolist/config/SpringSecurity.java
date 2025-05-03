@@ -26,6 +26,7 @@ public class SpringSecurity {
         return http.authorizeHttpRequests(request -> request
                         .requestMatchers(
                                 "/public/**",
+                                "/actuator/**",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"
