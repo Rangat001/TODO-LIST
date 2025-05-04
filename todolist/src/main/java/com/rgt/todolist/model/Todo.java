@@ -42,4 +42,26 @@ public class Todo {
     public boolean getcompleted(){
         return completed;
     }
+
+    // Add fields for notification tracking
+    private boolean weekNotificationSent = false;
+
+    private boolean dayNotificationSent = false;
+
+    // Getters and Setters
+    public boolean isWeekNotificationSent() {
+        return weekNotificationSent;
+    }
+
+    public void setWeekNotificationSent(boolean weekNotificationSent) {
+        this.weekNotificationSent = weekNotificationSent;
+    }
+
+    public boolean isDayNotificationSent() {
+        return dayNotificationSent;
+    }
+
+    public void setDayNotificationSent(boolean dayNotificationSent) {
+        this.dayNotificationSent = dayNotificationSent;
+    }
 }

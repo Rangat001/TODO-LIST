@@ -28,6 +28,9 @@ public class TodoService {
             throw new RuntimeException(e);
         }
     }
+    public Todo save(Todo todo) {
+        return todoRepository.save(todo);
+    }
 
     public List<Todo> getUserTodos(Long userId) {
         return todoRepository.findByUserIdOrderByCreatedAtDesc(userId);
@@ -55,5 +58,33 @@ public class TodoService {
 
     public Todo findbyid(Long id){
         return todoRepository.getById(id);
+    }
+
+    //                                  For Notifications
+    public List<Todo> getTodosDueInDays(int days) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime targetDate = now.plusDays(days);
+        return todoRepository.findByDueDateBetween(now, targetDate);
+    }
+
+    public List<Todo> getTodosDueInHours(int hours) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime targetDate = now.plusHours(hours);
+        return todoRepository.findByDueDateBetween(now, targetDate);
+    }
+
+    public List<Todo> getTodosDueInMinutes(int minutes) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime targetDate = now.plusMinutes(minutes);
+        return todoRepository.findByDueDateBetween(now, targetDate);
+    }
+
+    public List<Todo> getMissedTodos() {
+        LocalDateTime now = LocalDateTime.now();
+        return todoRepository.findByDueDateBeforeAndCompletedFalse(now);
+    }
+
+    public List<Todo> getTodosNotDueYet() {
+        return todoRepository.findByDueDateAfter(LocalDateTime.now());
     }
 }
