@@ -51,7 +51,7 @@ public class TodoController {
             String username =  authentication.getName();
             if(username != null){
                 todoService.updateTodo(todo,id);
-                return new ResponseEntity<>(todoService.findbyid(id),HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -67,7 +67,7 @@ public class TodoController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletebyid(@PathVariable Long id){
         Todo temp = todoService.findbyid(id);
         if (temp != null){

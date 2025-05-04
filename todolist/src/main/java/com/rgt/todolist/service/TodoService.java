@@ -42,7 +42,7 @@ public class TodoService {
         if(todo.getTitle() != null || todo.getTitle() != "" && todo.getDescription()!= null || todo.getDescription() != " "){
             temp.setTitle(todo.getTitle());
             temp.setDescription(todo.getDescription());
-            temp.setCreatedAt(todo.getCreatedAt());
+//            temp.setCreatedAt(todo.getCreatedAt());
             temp.setCompleted(todo.getcompleted());
             temp.setDueDate(todo.getDueDate());
         }
