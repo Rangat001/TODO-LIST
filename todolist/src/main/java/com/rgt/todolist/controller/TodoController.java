@@ -70,7 +70,7 @@ public class TodoController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletebyid(@PathVariable Long id){
         Todo temp = todoService.findbyid(id);
-        if (temp != null){
+        if (temp == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         todoService.deleteTodo(id);
