@@ -1,206 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>TODO List</title>-->
-<!--    <style>-->
-<!--        body {-->
-<!--        font-family: Arial, sans-serif;-->
-<!--        background-color: #f4f4f4;-->
-<!--        margin: 0;-->
-<!--        padding: 0;-->
-<!--    }-->
-
-<!--    .container {-->
-<!--        width: 90%;-->
-<!--        margin: 0 auto;-->
-<!--        padding: 20px;-->
-<!--        background: #fff;-->
-<!--        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
-<!--    }-->
-
-<!--    .profile {-->
-<!--        text-align: center;-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
-<!--    .profile img {-->
-<!--        width: 100px;-->
-<!--        height: 100px;-->
-<!--        border-radius: 50%;-->
-<!--    }-->
-
-<!--    .todo-list {-->
-<!--        position: relative;-->
-<!--    }-->
-
-<!--    .create-btn {-->
-<!--        position: fixed;-->
-<!--        bottom: 20px;-->
-<!--        right: 20px;-->
-<!--        font-size: 24px;-->
-<!--        background: #28a745;-->
-<!--        color: #fff;-->
-<!--        border: none;-->
-<!--        border-radius: 50%;-->
-<!--        width: 60px;-->
-<!--        height: 60px;-->
-<!--        cursor: pointer;-->
-<!--    }-->
-
-<!--    .todo-card {-->
-<!--        display: flex;-->
-<!--        justify-content: space-between;-->
-<!--        background: #fff;-->
-<!--        border: 1px solid #ddd;-->
-<!--        padding: 10px;-->
-<!--        margin-bottom: 10px;-->
-<!--        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);-->
-<!--    }-->
-
-<!--    .todo-content {-->
-<!--        flex-grow: 1;-->
-<!--        margin-right: 10px;-->
-<!--    }-->
-
-<!--    .todo-actions button {-->
-<!--        border: none;-->
-<!--        background: none;-->
-<!--        cursor: pointer;-->
-<!--        margin-left: 5px;-->
-<!--    }-->
-
-<!--    .check-btn {-->
-<!--        color: #28a745;-->
-<!--    }-->
-
-<!--    .edit-btn {-->
-<!--        color: #ffc107;-->
-<!--    }-->
-
-<!--    .delete-btn {-->
-<!--        color: #dc3545;-->
-<!--    }-->
-<!--        .check-btn,-->
-<!--        .edit-btn,-->
-<!--        .delete-btn {-->
-<!--            font-size: 18px; /* Increase font size for these buttons */-->
-<!--            width: 40px; /* Increase width */-->
-<!--            height: 40px; /* Increase height */-->
-<!--            display: flex;-->
-<!--            align-items: center;-->
-<!--            justify-content: center;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <section class="profile">-->
-<!--        <img src="profile.jpg" alt="Profile Picture">-->
-<!--        <h2 id="welcomeText">John Doe</h2>-->
-<!--    </section>-->
-
-<!--    <section class="todo-list">-->
-<!--        <div class="todo-card">-->
-<!--            <div class="todo-content">-->
-<!--                <h3 class="todo-title">Sample TODO</h3>-->
-<!--                <span class="todo-date">2025-04-07</span>-->
-<!--                <p class="todo-description">This is a sample description.</p>-->
-<!--            </div>-->
-<!--            <div class="todo-actions">-->
-<!--                <button class="check-btn">✔</button>-->
-<!--                <button class="edit-btn">✎</button>-->
-<!--                <button class="delete-btn">🗑</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-<!--    <button class="create-btn">+</button>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->
-<!--<script>-->
-<!--    document.addEventListener('DOMContentLoaded', function() {-->
-<!--        const createBtn = document.querySelector('.create-btn');-->
-<!--        const todoList = document.querySelector('.todo-list');-->
-
-<!--        createBtn.addEventListener('click', function() {-->
-<!--            const newTodo = document.createElement('div');-->
-<!--            newTodo.classList.add('todo-card');-->
-<!--            newTodo.innerHTML = `-->
-<!--            <div class="todo-content">-->
-<!--                <span class="todo-date">${new Date().toISOString().split('T')[0]}</span>-->
-<!--                <h3 class="todo-title">New TODO</h3>-->
-<!--                <p class="todo-description">Description...</p>-->
-<!--            </div>-->
-<!--            <div class="todo-actions">-->
-<!--                <button class="check-btn">✔</button>-->
-<!--                <button class="edit-btn">✎</button>-->
-<!--                <button class="delete-btn">🗑</button>-->
-<!--            </div>-->
-<!--        `;-->
-<!--            todoList.appendChild(newTodo);-->
-<!--        });-->
-
-<!--        todoList.addEventListener('click', function(event) {-->
-<!--            if (event.target.classList.contains('check-btn')) {-->
-<!--                event.target.parentElement.parentElement.classList.toggle('completed');-->
-<!--            }-->
-<!--            if (event.target.classList.contains('edit-btn')) {-->
-<!--                const todoCard = event.target.parentElement.parentElement;-->
-<!--                const title = prompt('Edit Title', todoCard.querySelector('.todo-title').textContent);-->
-<!--                const description = prompt('Edit Description', todoCard.querySelector('.todo-description').textContent);-->
-<!--                if (title) todoCard.querySelector('.todo-title').textContent = title;-->
-<!--                if (description) todoCard.querySelector('.todo-description').textContent = description;-->
-<!--            }-->
-<!--            if (event.target.classList.contains('delete-btn')) {-->
-<!--                event.target.parentElement.parentElement.remove();-->
-<!--            }-->
-<!--        });-->
-<!--    });-->
-
-<!--    //                                                   Verification-->
-<!--    window.onload = async function () {-->
-<!--        const token = localStorage.getItem('jwt_token');-->
-<!--//-->
-<!--//        // If no token found, redirect to login-->
-<!--//        if (!token) {-->
-<!--//            window.location.href = '/public/login';-->
-<!--//            return;-->
-<!--//        }-->
-
-<!--        try {-->
-<!--            const response = await fetch('/public/validate', {-->
-<!--                method: 'GET',-->
-<!--                headers: {-->
-<!--                    'Authorization': `Bearer ${token}`,-->
-<!--                    'Accept': 'application/json'-->
-<!--                }-->
-<!--            });-->
-
-<!--            if (!response.ok) {-->
-<!--                // Token is invalid or expired-->
-<!--//                localStorage.removeItem('jwt_token');-->
-<!--//                window.location.href = '/public/login';-->
-<!--            } else {-->
-<!--                const data = await response.json();-->
-<!--                console.log('Token is valid. User data:', data);-->
-
-<!--                // Display user full name-->
-<!--                const welcomeText = document.getElementById('welcomeText');-->
-<!--                if (welcomeText && data.fullName) {-->
-<!--                    welcomeText.textContent = `Welcome, ${data.fullName}!`;-->
-<!--                }-->
-<!--            }-->
-
-<!--        } catch (error) {-->
-<!--            console.error('Validation failed:', error);-->
-<!--//            localStorage.removeItem('jwt_token');-->
-<!--//            window.location.href = '/public/login';-->
-<!--        }-->
-<!--    };-->
-<!--</script>-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -236,6 +33,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
 
         .todo-card:hover {
@@ -255,6 +53,44 @@
         .todo-date {
             font-size: 14px;
             color: #888;
+        }
+
+        .todo-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .todo-actions button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 18px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .todo-actions button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .check-btn {
+            color: #28a745;
+        }
+
+        .edit-btn {
+            color: #ffc107;
+        }
+
+        .delete-btn {
+            color: #dc3545;
         }
 
         .add-todo-btn {
@@ -298,7 +134,7 @@
             background: #fff;
             padding: 20px;
             border-radius: 10px;
-            width: 90%;
+            width: 95%;
             max-width: 400px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -309,7 +145,7 @@
 
         .modal-content input,
         .modal-content textarea {
-            width: 100%;
+            width: 90%;
             margin: 10px 0;
             padding: 10px;
             border: 1px solid #ddd;
@@ -327,6 +163,20 @@
 
         .modal-content button:hover {
             background: #218838;
+        }
+        .cancel-btn {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #c82333;
         }
     </style>
 </head>
@@ -348,7 +198,20 @@
         <input type="text" id="todoTitle" placeholder="Title" required>
         <textarea id="todoDescription" placeholder="Description" rows="3" required></textarea>
         <input type="datetime-local" id="todoDueDate" required>
-        <button id="saveTodoBtn">Save</button>
+        <button id="saveTodoBtn" class="sub-btn">Save</button>
+        <button id="cancelAddTodoBtn" class="cancel-btn" style="background: #dc3545;">Cancel</button>
+    </div>
+</div>
+
+<!-- Modal for Editing TODO -->
+<div class="modal" id="editTodoModal">
+    <div class="modal-content">
+        <h2>Edit TODO</h2>
+        <input type="text" id="editTodoTitle" placeholder="Title" required>
+        <textarea id="editTodoDescription" placeholder="Description" rows="3" required></textarea>
+        <input type="datetime-local" id="editTodoDueDate" required>
+        <button id="saveEditTodoBtn">Save Changes</button>
+        <button id="cancelEditTodoBtn" class="cancel-btn" style="background: #dc3545;">Cancel</button>
     </div>
 </div>
 
@@ -358,93 +221,7 @@
     const saveTodoBtn = document.getElementById('saveTodoBtn');
     const todoList = document.getElementById('todoList');
 
-    // Open the modal
-    addTodoBtn.addEventListener('click', () => {
-        todoModal.classList.add('active');
-    });
-
-    // Close the modal on clicking outside the content
-    todoModal.addEventListener('click', (event) => {
-        if (event.target === todoModal) {
-            todoModal.classList.remove('active');
-        }
-    });
-
-    // Save a new TODO
-    saveTodoBtn.addEventListener('click', async () => {
-        const title = document.getElementById('todoTitle').value;
-        const description = document.getElementById('todoDescription').value;
-        const dueDate = document.getElementById('todoDueDate').value;
-
-        if (title && description && dueDate) {
-            const todo = { title, description, dueDate };
-
-            try {
-                const response = await fetch('http://localhost:8080/todo/create' ,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
-                    },
-                    body: JSON.stringify(todo)
-                });
-
-                if (response.ok) {
-                    alert('TODO created successfully!');
-                    loadTodos(); // Reload the TODO list
-                    todoModal.classList.remove('active');
-                } else {
-                    alert('Failed to create TODO. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error creating TODO:', error);
-            }
-        } else {
-            alert('Please fill out all fields.');
-        }
-    });
-
-    // Load TODOs from the server
-    async function loadTodos() {
-        try {
-            const response = await fetch('http://localhost:8080/todo/getall', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                const todos = await response.json();
-                renderTodos(todos);
-            } else {
-                console.error('Failed to fetch todos:', response.status);
-            }
-        } catch (error) {
-            console.error('Error loading todos:', error);
-        }
-    }
-
-    // Render TODOs in the DOM
-    function renderTodos(todos) {
-        todoList.innerHTML = ''; // Clear the current list
-        todos.forEach(todo => {
-            const todoCard = document.createElement('div');
-            todoCard.classList.add('todo-card');
-            todoCard.innerHTML = `
-                <h3 class="todo-title">${todo.title}</h3>
-                <p class="todo-description">${todo.description}</p>
-                <span class="todo-date">${todo.dueDate}</span>
-            `;
-            todoList.appendChild(todoCard);
-        });
-    }
-
-    // Load TODOs on page load
-    document.addEventListener('DOMContentLoaded', loadTodos);
-
-
+                                                        // Validate User
     window.onload = async function () {
         const token = localStorage.getItem('jwt_token');
 
@@ -483,6 +260,256 @@
         }
     };
 
+                                                        // Open the modal
+    addTodoBtn.addEventListener('click', () => {
+        todoModal.classList.add('active');
+    });
+
+                                    // Close the modal on clicking outside the content
+
+    todoModal.addEventListener('click', (event) => {
+        if (event.target === todoModal) {
+            todoModal.classList.remove('active');
+        }
+    });
+
+                                              // Save a new TODO
+    saveTodoBtn.addEventListener('click', async () => {
+        const title = document.getElementById('todoTitle').value;
+        const description = document.getElementById('todoDescription').value;
+        const dueDate = document.getElementById('todoDueDate').value;
+
+        if (title && description && dueDate) {
+            const todo = { title, description, dueDate };
+
+            try {
+                const response = await fetch('http://localhost:8080/todo/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
+                    },
+                    body: JSON.stringify(todo)
+                });
+
+                if (response.ok) {
+                    alert('TODO created successfully!');
+                    loadTodos(); // Reload the TODO list
+                    todoModal.classList.remove('active');
+                } else {
+                    alert('Failed to create TODO. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error creating TODO:', error);
+            }
+        } else {
+            alert('Please fill out all fields.');
+        }
+    });
+
+                                         // Load TODOs from the server
+    async function loadTodos() {
+        try {
+            const response = await fetch('http://localhost:8080/todo/getall', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const todos = await response.json();
+                renderTodos(todos);
+            } else {
+                console.error('Failed to fetch todos:', response.status);
+            }
+        } catch (error) {
+            console.error('Error loading todos:', error);
+        }
+    }
+
+                                             // Render TODOs in the DOM
+    function renderTodos(todos) {
+        todoList.innerHTML = ''; // Clear the current list
+        todos.forEach(todo => {
+            const todoCard = document.createElement('div');
+            todoCard.classList.add('todo-card');
+            todoCard.setAttribute('data-id', todo.id); // Add a unique data-id attribute
+            todoCard.innerHTML = `
+            <div class="todo-content">
+                <h3 class="todo-title">${todo.title}</h3>
+                <p class="todo-description">${todo.description}</p>
+                <span class="todo-date">${todo.dueDate}</span>
+                <div class="todo-actions">
+                    <button class="check-btn" onclick="markAsComplete(${todo.id})">✔</button>
+                    <button class="edit-btn" onclick="editTodo(${todo.id})">✎</button>
+                    <button class="delete-btn" onclick="deleteTodo(${todo.id})">🗑</button>
+                </div>
+            </div>
+        `;
+            todoList.appendChild(todoCard);
+        });
+    }
+
+                                                  // Mark TODO as Complete
+    // Mark TODO as Complete
+    async function markAsComplete(id) {
+        // Fetch the TODO card using the data-id attribute
+        const todoCard = document.querySelector(`.todo-card[data-id="${id}"]`);
+        if (!todoCard) {
+            console.error(`TODO card with data-id="${id}" not found.`);
+            return;
+        }
+
+        const title = todoCard.querySelector('.todo-title').textContent;
+        const description = todoCard.querySelector('.todo-description').textContent;
+        const dueDate = todoCard.querySelector('.todo-date').textContent;
+
+        // Add the completed field
+        const updatedTodo = {
+            title: title,
+            description: description,
+            dueDate: dueDate,
+            completed: true // Mark as complete
+        };
+
+        try {
+            const response = await fetch(`http://localhost:8080/todo/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
+                },
+                body: JSON.stringify(updatedTodo)
+            });
+
+            if (response.ok) {
+                alert('TODO marked as complete!');
+                loadTodos(); // Reload the TODO list
+            } else {
+                console.error('Failed to mark TODO as complete.', response.status);
+            }
+        } catch (error) {
+            console.error('Error marking TODO:', error);
+        }
+    }
+
+    // Edit TODO
+    async function editTodo(id) {
+        // Open the Edit modal
+        const editModal = document.getElementById('editTodoModal');
+        const editTitleInput = document.getElementById('editTodoTitle');
+        const editDescriptionInput = document.getElementById('editTodoDescription');
+        const editDueDateInput = document.getElementById('editTodoDueDate');
+        const saveEditBtn = document.getElementById('saveEditTodoBtn');
+
+
+        // Fetch current TODO details from the DOM
+        const todoCard = document.querySelector(`.todo-card[data-id="${id}"]`);
+        if (!todoCard) {
+            console.error(`TODO card with data-id="${id}" not found.`);
+            return;
+        }
+
+        const currentTitle = todoCard.querySelector('.todo-title').textContent;
+        const currentDescription = todoCard.querySelector('.todo-description').textContent;
+        const currentDueDate = todoCard.querySelector('.todo-date').textContent;
+
+        // Pre-fill the modal fields with the current TODO details
+        editTitleInput.value = currentTitle;
+        editDescriptionInput.value = currentDescription;
+        editDueDateInput.value = currentDueDate;
+
+        editModal.classList.add('active');
+
+        // Event listener for saving the updated TODO
+        saveEditBtn.onclick = async () => {
+            const updatedTodo = {
+                title: editTitleInput.value,
+                description: editDescriptionInput.value,
+                dueDate: editDueDateInput.value
+            };
+
+            try {
+                const response = await fetch(`http://localhost:8080/todo/edit/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
+                    },
+                    body: JSON.stringify(updatedTodo)
+                });
+
+                if (response.ok) {
+                    alert('TODO updated successfully!');
+                    loadTodos(); // Reload the TODO list
+                    editModal.classList.remove('active'); // Close the modal
+                } else {
+                    alert('Failed to update TODO.');
+                }
+            } catch (error) {
+                console.error('Error updating TODO:', error);
+            }
+        };
+    }
+
+                                                            // Delete TODO
+    async function deleteTodo(id) {
+        if (confirm('Are you sure you want to delete this TODO?')) {
+            try {
+                const response = await fetch(`http://localhost:8080/todo/delete/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    alert('TODO deleted successfully!');
+                    loadTodos(); // Reload the TODO list
+                } else {
+                    console.error('Failed to delete TODO.', response.status);
+                }
+            } catch (error) {
+                console.error('Error deleting TODO:', error);
+            }
+        }
+    }
+
+    // Cancel buttons
+    const cancelAddTodoBtn = document.getElementById('cancelAddTodoBtn');
+    const cancelEditTodoBtn = document.getElementById('cancelEditTodoBtn');
+    const addTodoModal = document.getElementById('addTodoModal');
+    const editTodoModal = document.getElementById('editTodoModal');
+
+    // Close Add Task modal
+    cancelAddTodoBtn.addEventListener('click', () => {
+        clearAddTodoFields();
+        addTodoModal.classList.remove('active');
+    });
+
+    // Close Edit Task modal
+    cancelEditTodoBtn.addEventListener('click', () => {
+        clearEditTodoFields();
+        editTodoModal.classList.remove('active');
+    });
+
+    // Clear fields in Add Task modal
+    function clearAddTodoFields() {
+        document.getElementById('addTodoTitle').value = '';
+        document.getElementById('addTodoDescription').value = '';
+        document.getElementById('addTodoDueDate').value = '';
+    }
+
+    // Clear fields in Edit Task modal
+    function clearEditTodoFields() {
+        document.getElementById('editTodoTitle').value = '';
+        document.getElementById('editTodoDescription').value = '';
+        document.getElementById('editTodoDueDate').value = '';
+    }
+                                                     // Load TODOs on page load
+    document.addEventListener('DOMContentLoaded', loadTodos);
 </script>
 </body>
 </html>
