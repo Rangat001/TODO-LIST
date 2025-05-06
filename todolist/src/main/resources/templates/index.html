@@ -1,177 +1,462 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>TODO List</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--        font-family: Arial, sans-serif;-->
+<!--        background-color: #f4f4f4;-->
+<!--        margin: 0;-->
+<!--        padding: 0;-->
+<!--    }-->
+
+<!--    .container {-->
+<!--        width: 90%;-->
+<!--        margin: 0 auto;-->
+<!--        padding: 20px;-->
+<!--        background: #fff;-->
+<!--        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--    }-->
+
+<!--    .profile {-->
+<!--        text-align: center;-->
+<!--        margin-bottom: 20px;-->
+<!--    }-->
+
+<!--    .profile img {-->
+<!--        width: 100px;-->
+<!--        height: 100px;-->
+<!--        border-radius: 50%;-->
+<!--    }-->
+
+<!--    .todo-list {-->
+<!--        position: relative;-->
+<!--    }-->
+
+<!--    .create-btn {-->
+<!--        position: fixed;-->
+<!--        bottom: 20px;-->
+<!--        right: 20px;-->
+<!--        font-size: 24px;-->
+<!--        background: #28a745;-->
+<!--        color: #fff;-->
+<!--        border: none;-->
+<!--        border-radius: 50%;-->
+<!--        width: 60px;-->
+<!--        height: 60px;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+
+<!--    .todo-card {-->
+<!--        display: flex;-->
+<!--        justify-content: space-between;-->
+<!--        background: #fff;-->
+<!--        border: 1px solid #ddd;-->
+<!--        padding: 10px;-->
+<!--        margin-bottom: 10px;-->
+<!--        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);-->
+<!--    }-->
+
+<!--    .todo-content {-->
+<!--        flex-grow: 1;-->
+<!--        margin-right: 10px;-->
+<!--    }-->
+
+<!--    .todo-actions button {-->
+<!--        border: none;-->
+<!--        background: none;-->
+<!--        cursor: pointer;-->
+<!--        margin-left: 5px;-->
+<!--    }-->
+
+<!--    .check-btn {-->
+<!--        color: #28a745;-->
+<!--    }-->
+
+<!--    .edit-btn {-->
+<!--        color: #ffc107;-->
+<!--    }-->
+
+<!--    .delete-btn {-->
+<!--        color: #dc3545;-->
+<!--    }-->
+<!--        .check-btn,-->
+<!--        .edit-btn,-->
+<!--        .delete-btn {-->
+<!--            font-size: 18px; /* Increase font size for these buttons */-->
+<!--            width: 40px; /* Increase width */-->
+<!--            height: 40px; /* Increase height */-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <section class="profile">-->
+<!--        <img src="profile.jpg" alt="Profile Picture">-->
+<!--        <h2 id="welcomeText">John Doe</h2>-->
+<!--    </section>-->
+
+<!--    <section class="todo-list">-->
+<!--        <div class="todo-card">-->
+<!--            <div class="todo-content">-->
+<!--                <h3 class="todo-title">Sample TODO</h3>-->
+<!--                <span class="todo-date">2025-04-07</span>-->
+<!--                <p class="todo-description">This is a sample description.</p>-->
+<!--            </div>-->
+<!--            <div class="todo-actions">-->
+<!--                <button class="check-btn">✔</button>-->
+<!--                <button class="edit-btn">✎</button>-->
+<!--                <button class="delete-btn">🗑</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--    <button class="create-btn">+</button>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        const createBtn = document.querySelector('.create-btn');-->
+<!--        const todoList = document.querySelector('.todo-list');-->
+
+<!--        createBtn.addEventListener('click', function() {-->
+<!--            const newTodo = document.createElement('div');-->
+<!--            newTodo.classList.add('todo-card');-->
+<!--            newTodo.innerHTML = `-->
+<!--            <div class="todo-content">-->
+<!--                <span class="todo-date">${new Date().toISOString().split('T')[0]}</span>-->
+<!--                <h3 class="todo-title">New TODO</h3>-->
+<!--                <p class="todo-description">Description...</p>-->
+<!--            </div>-->
+<!--            <div class="todo-actions">-->
+<!--                <button class="check-btn">✔</button>-->
+<!--                <button class="edit-btn">✎</button>-->
+<!--                <button class="delete-btn">🗑</button>-->
+<!--            </div>-->
+<!--        `;-->
+<!--            todoList.appendChild(newTodo);-->
+<!--        });-->
+
+<!--        todoList.addEventListener('click', function(event) {-->
+<!--            if (event.target.classList.contains('check-btn')) {-->
+<!--                event.target.parentElement.parentElement.classList.toggle('completed');-->
+<!--            }-->
+<!--            if (event.target.classList.contains('edit-btn')) {-->
+<!--                const todoCard = event.target.parentElement.parentElement;-->
+<!--                const title = prompt('Edit Title', todoCard.querySelector('.todo-title').textContent);-->
+<!--                const description = prompt('Edit Description', todoCard.querySelector('.todo-description').textContent);-->
+<!--                if (title) todoCard.querySelector('.todo-title').textContent = title;-->
+<!--                if (description) todoCard.querySelector('.todo-description').textContent = description;-->
+<!--            }-->
+<!--            if (event.target.classList.contains('delete-btn')) {-->
+<!--                event.target.parentElement.parentElement.remove();-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+
+<!--    //                                                   Verification-->
+<!--    window.onload = async function () {-->
+<!--        const token = localStorage.getItem('jwt_token');-->
+<!--//-->
+<!--//        // If no token found, redirect to login-->
+<!--//        if (!token) {-->
+<!--//            window.location.href = '/public/login';-->
+<!--//            return;-->
+<!--//        }-->
+
+<!--        try {-->
+<!--            const response = await fetch('/public/validate', {-->
+<!--                method: 'GET',-->
+<!--                headers: {-->
+<!--                    'Authorization': `Bearer ${token}`,-->
+<!--                    'Accept': 'application/json'-->
+<!--                }-->
+<!--            });-->
+
+<!--            if (!response.ok) {-->
+<!--                // Token is invalid or expired-->
+<!--//                localStorage.removeItem('jwt_token');-->
+<!--//                window.location.href = '/public/login';-->
+<!--            } else {-->
+<!--                const data = await response.json();-->
+<!--                console.log('Token is valid. User data:', data);-->
+
+<!--                // Display user full name-->
+<!--                const welcomeText = document.getElementById('welcomeText');-->
+<!--                if (welcomeText && data.fullName) {-->
+<!--                    welcomeText.textContent = `Welcome, ${data.fullName}!`;-->
+<!--                }-->
+<!--            }-->
+
+<!--        } catch (error) {-->
+<!--            console.error('Validation failed:', error);-->
+<!--//            localStorage.removeItem('jwt_token');-->
+<!--//            window.location.href = '/public/login';-->
+<!--        }-->
+<!--    };-->
+<!--</script>-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TODO List</title>
     <style>
         body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-        width: 90%;
-        margin: 0 auto;
-        padding: 20px;
-        background: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
 
-    .profile {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        .todo-list {
+            margin-top: 20px;
+        }
 
-    .profile img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-    }
+        .todo-card {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-    .todo-list {
-        position: relative;
-    }
+        .todo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    .create-btn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        font-size: 24px;
-        background: #28a745;
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-    }
+        .todo-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-    .todo-card {
-        display: flex;
-        justify-content: space-between;
-        background: #fff;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
+        .todo-description {
+            margin: 10px 0;
+        }
 
-    .todo-content {
-        flex-grow: 1;
-        margin-right: 10px;
-    }
+        .todo-date {
+            font-size: 14px;
+            color: #888;
+        }
 
-    .todo-actions button {
-        border: none;
-        background: none;
-        cursor: pointer;
-        margin-left: 5px;
-    }
+        .add-todo-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 24px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
 
-    .check-btn {
-        color: #28a745;
-    }
+        .add-todo-btn:hover {
+            transform: scale(1.1);
+        }
 
-    .edit-btn {
-        color: #ffc107;
-    }
-
-    .delete-btn {
-        color: #dc3545;
-    }
-        .check-btn,
-        .edit-btn,
-        .delete-btn {
-            font-size: 18px; /* Increase font size for these buttons */
-            width: 40px; /* Increase width */
-            height: 40px; /* Increase height */
-            display: flex;
-            align-items: center;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
             justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background: #218838;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <section class="profile">
-        <img src="profile.jpg" alt="Profile Picture">
-        <h2 id="welcomeText">John Doe</h2>
+    <h1>TODO List</h1>
+    <section class="todo-list" id="todoList">
+        <!-- TODOs will be dynamically rendered here -->
     </section>
-
-    <section class="todo-list">
-        <div class="todo-card">
-            <div class="todo-content">
-                <h3 class="todo-title">Sample TODO</h3>
-                <span class="todo-date">2025-04-07</span>
-                <p class="todo-description">This is a sample description.</p>
-            </div>
-            <div class="todo-actions">
-                <button class="check-btn">✔</button>
-                <button class="edit-btn">✎</button>
-                <button class="delete-btn">🗑</button>
-            </div>
-        </div>
-    </section>
-    <button class="create-btn">+</button>
 </div>
 
-</body>
-</html>
+<!-- Floating Add Button -->
+<button class="add-todo-btn" id="addTodoBtn">+</button>
+
+<!-- Modal for Adding TODO -->
+<div class="modal" id="todoModal">
+    <div class="modal-content">
+        <h2>Create New TODO</h2>
+        <input type="text" id="todoTitle" placeholder="Title" required>
+        <textarea id="todoDescription" placeholder="Description" rows="3" required></textarea>
+        <input type="datetime-local" id="todoDueDate" required>
+        <button id="saveTodoBtn">Save</button>
+    </div>
+</div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const createBtn = document.querySelector('.create-btn');
-        const todoList = document.querySelector('.todo-list');
+    const addTodoBtn = document.getElementById('addTodoBtn');
+    const todoModal = document.getElementById('todoModal');
+    const saveTodoBtn = document.getElementById('saveTodoBtn');
+    const todoList = document.getElementById('todoList');
 
-        createBtn.addEventListener('click', function() {
-            const newTodo = document.createElement('div');
-            newTodo.classList.add('todo-card');
-            newTodo.innerHTML = `
-            <div class="todo-content">
-                <span class="todo-date">${new Date().toISOString().split('T')[0]}</span>
-                <h3 class="todo-title">New TODO</h3>
-                <p class="todo-description">Description...</p>
-            </div>
-            <div class="todo-actions">
-                <button class="check-btn">✔</button>
-                <button class="edit-btn">✎</button>
-                <button class="delete-btn">🗑</button>
-            </div>
-        `;
-            todoList.appendChild(newTodo);
-        });
-
-        todoList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('check-btn')) {
-                event.target.parentElement.parentElement.classList.toggle('completed');
-            }
-            if (event.target.classList.contains('edit-btn')) {
-                const todoCard = event.target.parentElement.parentElement;
-                const title = prompt('Edit Title', todoCard.querySelector('.todo-title').textContent);
-                const description = prompt('Edit Description', todoCard.querySelector('.todo-description').textContent);
-                if (title) todoCard.querySelector('.todo-title').textContent = title;
-                if (description) todoCard.querySelector('.todo-description').textContent = description;
-            }
-            if (event.target.classList.contains('delete-btn')) {
-                event.target.parentElement.parentElement.remove();
-            }
-        });
+    // Open the modal
+    addTodoBtn.addEventListener('click', () => {
+        todoModal.classList.add('active');
     });
 
-    //                                                   Verification
+    // Close the modal on clicking outside the content
+    todoModal.addEventListener('click', (event) => {
+        if (event.target === todoModal) {
+            todoModal.classList.remove('active');
+        }
+    });
+
+    // Save a new TODO
+    saveTodoBtn.addEventListener('click', async () => {
+        const title = document.getElementById('todoTitle').value;
+        const description = document.getElementById('todoDescription').value;
+        const dueDate = document.getElementById('todoDueDate').value;
+
+        if (title && description && dueDate) {
+            const todo = { title, description, dueDate };
+
+            try {
+                const response = await fetch('http://localhost:8080/todo/create' ,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
+                    },
+                    body: JSON.stringify(todo)
+                });
+
+                if (response.ok) {
+                    alert('TODO created successfully!');
+                    loadTodos(); // Reload the TODO list
+                    todoModal.classList.remove('active');
+                } else {
+                    alert('Failed to create TODO. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error creating TODO:', error);
+            }
+        } else {
+            alert('Please fill out all fields.');
+        }
+    });
+
+    // Load TODOs from the server
+    async function loadTodos() {
+        try {
+            const response = await fetch('http://localhost:8080/todo/getall', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const todos = await response.json();
+                renderTodos(todos);
+            } else {
+                console.error('Failed to fetch todos:', response.status);
+            }
+        } catch (error) {
+            console.error('Error loading todos:', error);
+        }
+    }
+
+    // Render TODOs in the DOM
+    function renderTodos(todos) {
+        todoList.innerHTML = ''; // Clear the current list
+        todos.forEach(todo => {
+            const todoCard = document.createElement('div');
+            todoCard.classList.add('todo-card');
+            todoCard.innerHTML = `
+                <h3 class="todo-title">${todo.title}</h3>
+                <p class="todo-description">${todo.description}</p>
+                <span class="todo-date">${todo.dueDate}</span>
+            `;
+            todoList.appendChild(todoCard);
+        });
+    }
+
+    // Load TODOs on page load
+    document.addEventListener('DOMContentLoaded', loadTodos);
+
+
     window.onload = async function () {
         const token = localStorage.getItem('jwt_token');
-//
-//        // If no token found, redirect to login
-//        if (!token) {
-//            window.location.href = '/public/login';
-//            return;
-//        }
+
+        // If no token found, redirect to login
+        if (!token) {
+            window.location.href = '/public/login';
+            return;
+        }
 
         try {
-            const response = await fetch('/public/validate', {
+            // Validate token
+            const validateResponse = await fetch('/public/validate', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -179,25 +464,26 @@
                 }
             });
 
-            if (!response.ok) {
-                // Token is invalid or expired
-//                localStorage.removeItem('jwt_token');
-//                window.location.href = '/public/login';
-            } else {
-                const data = await response.json();
-                console.log('Token is valid. User data:', data);
+            if (!validateResponse.ok) {
+                localStorage.removeItem('jwt_token');
+                window.location.href = '/public/login';
+                return;
+            }
 
-                // Display user full name
-                const welcomeText = document.getElementById('welcomeText');
-                if (welcomeText && data.fullName) {
-                    welcomeText.textContent = `Welcome, ${data.fullName}!`;
-                }
+            const userData = await validateResponse.json();
+            const welcomeText = document.getElementById('welcomeText');
+            if (welcomeText && userData.fullName) {
+                welcomeText.textContent = `Welcome, ${userData.fullName}!`;
             }
 
         } catch (error) {
-            console.error('Validation failed:', error);
-//            localStorage.removeItem('jwt_token');
-//            window.location.href = '/public/login';
+            console.error('Error during initialization:', error);
+            localStorage.removeItem('jwt_token');
+            window.location.href = '/public/login';
         }
     };
+
 </script>
+</body>
+</html>
+
