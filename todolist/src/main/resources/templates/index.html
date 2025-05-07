@@ -20,7 +20,18 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
+        .filter-section {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
 
+        .filter-dropdown {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
         .todo-list {
             margin-top: 20px;
         }
@@ -178,9 +189,44 @@
         .cancel-btn:hover {
             background: #c82333;
         }
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .filter-buttons button:hover {
+            background: #0056b3;
+        }
+
+        .filter-buttons button.active {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
+
+<!-- Filter Dropdown -->
+<div class="filter-section">
+    <label for="filterDropdown">Filter by:</label>
+    <select id="filterDropdown" class="filter-dropdown">
+        <option value="all">All</option>
+        <option value="completed">Completed</option>
+        <option value="non-completed" selected>Pending</option>
+    </select>
+</div>
+
 <div class="container">
     <h1>TODO List</h1>
     <section class="todo-list" id="todoList">
@@ -220,6 +266,7 @@
     const todoModal = document.getElementById('todoModal');
     const saveTodoBtn = document.getElementById('saveTodoBtn');
     const todoList = document.getElementById('todoList');
+    const filterDropdown = document.getElementById('filterDropdown');
 
                                                         // Validate User
     window.onload = async function () {
@@ -308,6 +355,53 @@
     });
 
                                          // Load TODOs from the server
+//    async function loadTodos() {
+//        try {
+//            const response = await fetch('http://localhost:8080/todo/getall', {
+//                method: 'GET',
+//                headers: {
+//                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
+//                    'Accept': 'application/json'
+//                }
+//            });
+//
+//            if (response.ok) {
+//                const todos = await response.json();
+//                renderTodos(todos);
+//            } else {
+//                console.error('Failed to fetch todos:', response.status);
+//            }
+//        } catch (error) {
+//            console.error('Error loading todos:', error);
+//        }
+//    }
+    //                                                    Filter
+
+    let currentFilter = 'all'; // Tracks the current filter ('all', 'completed', 'non-completed')
+
+//    // Event listeners for filter buttons
+//    document.getElementById('filterAllBtn').addEventListener('click', () => {
+//        currentFilter = 'all';
+//        loadTodos(); // Reload the TODO list with the "All" filter
+//    });
+//
+//    document.getElementById('filterCompletedBtn').addEventListener('click', () => {
+//        currentFilter = 'completed';
+//        loadTodos(); // Reload the TODO list with the "Completed" filter
+//    });
+//
+//    document.getElementById('filterNonCompletedBtn').addEventListener('click', () => {
+//        currentFilter = 'non-completed';
+//        loadTodos(); // Reload the TODO list with the "Non-Completed" filter
+//    });
+
+    // Event listener for filter dropdown change
+    filterDropdown.addEventListener('change', (event) => {
+        currentFilter = event.target.value;
+        loadTodos();
+    });
+
+    // Load TODOs from the server with filtering
     async function loadTodos() {
         try {
             const response = await fetch('http://localhost:8080/todo/getall', {
@@ -320,12 +414,25 @@
 
             if (response.ok) {
                 const todos = await response.json();
-                renderTodos(todos);
+                // Apply the current filter to the todos
+                const filteredTodos = filterTodos(todos, currentFilter);
+                renderTodos(filteredTodos);
             } else {
                 console.error('Failed to fetch todos:', response.status);
             }
         } catch (error) {
             console.error('Error loading todos:', error);
+        }
+    }
+
+    // Apply the filter to TODOs
+    function filterTodos(todos, filter) {
+        if (filter === 'completed') {
+            return todos.filter(todo => todo.completed === true);
+        } else if (filter === 'non-completed') {
+            return todos.filter(todo => todo.completed === false);
+        } else {
+            return todos; // Return all todos for the 'all' filter
         }
     }
 
@@ -336,6 +443,9 @@
             const todoCard = document.createElement('div');
             todoCard.classList.add('todo-card');
             todoCard.setAttribute('data-id', todo.id); // Add a unique data-id attribute
+            if (todo.completed) {
+                todoCard.classList.add('completed'); // Add a 'completed' class if the task is completed
+            }
             todoCard.innerHTML = `
             <div class="todo-content">
                 <h3 class="todo-title">${todo.title}</h3>
