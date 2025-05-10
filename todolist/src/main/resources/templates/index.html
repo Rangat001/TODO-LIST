@@ -354,27 +354,7 @@
         }
     });
 
-                                         // Load TODOs from the server
-//    async function loadTodos() {
-//        try {
-//            const response = await fetch('http://localhost:8080/todo/getall', {
-//                method: 'GET',
-//                headers: {
-//                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
-//                    'Accept': 'application/json'
-//                }
-//            });
-//
-//            if (response.ok) {
-//                const todos = await response.json();
-//                renderTodos(todos);
-//            } else {
-//                console.error('Failed to fetch todos:', response.status);
-//            }
-//        } catch (error) {
-//            console.error('Error loading todos:', error);
-//        }
-//    }
+                                         
     //                                                    Filter
 
     let currentFilter = 'all'; // Tracks the current filter ('all', 'completed', 'non-completed')
