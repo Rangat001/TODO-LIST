@@ -30,8 +30,6 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-
-
     @PostMapping("/create")
     public ResponseEntity<?> create_todo(@RequestBody Todo todo){
         if(todo.getTitle() != null && todo.getDueDate() != null && todo.getDescription() != null){
