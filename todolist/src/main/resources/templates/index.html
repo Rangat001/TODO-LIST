@@ -23,7 +23,7 @@
         .filter-section {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left: 20px;
         }
 
         .filter-dropdown {
@@ -213,9 +213,30 @@
         .filter-buttons button.active {
             background: #0056b3;
         }
+
+        #logoutBtn {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            padding: 10px 24px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: background 0.2s;
+        }
+        #logoutBtn:hover {
+            background-color: #e60000;
+        }
     </style>
 </head>
 <body>
+
+<button id="logoutBtn">Logout</button>
 
 <!-- Filter Dropdown -->
 <div class="filter-section">
@@ -267,6 +288,20 @@
     const saveTodoBtn = document.getElementById('saveTodoBtn');
     const todoList = document.getElementById('todoList');
     const filterDropdown = document.getElementById('filterDropdown');
+
+    //                                         Logout Button
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+        try {
+            // Call backend logout endpoint
+            await fetch('/public/logout', { method: 'POST' });
+        } catch (e) {
+            // Optionally handle error
+        }
+        // Remove JWT token from localStorage
+        localStorage.removeItem('jwt_token');
+        // Redirect to login page
+        window.location.href = '/public/login';
+    });
 
                                                         // Validate User
     window.onload = async function () {

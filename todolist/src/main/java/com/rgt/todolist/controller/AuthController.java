@@ -41,6 +41,22 @@ public class AuthController {
         return "login";  // This will look for login.html in src/main/resources/templates/
     }
 
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";  // This will look for signup.html in src/main/resources/templates/
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        SecurityContextHolder.clearContext();
+        return "login";
+    }
+
+    @GetMapping("/index")
+    public String index() {
+        return "index";  // This will look for index.html in templates folder
+    }
+
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> checkAuth(@RequestBody AuthRequest authRequest) {
@@ -73,18 +89,29 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/signup")
-    public String signup() {
-        return "signup";  // This will look for signup.html in src/main/resources/templates/
-    }
-
     @PostMapping("/signup")
-    public String createUser(@ModelAttribute User user){
+    public ResponseEntity<?> createUser(@ModelAttribute User user){
         try {
             userService.createUser(user);
-            return "redirect:/login?signup=success";
+            String htmlResponse = "<!DOCTYPE html>" +
+                    "<html><head><title>Redirecting...</title></head>" +
+                    "<body><script>" +
+                    "window.location.href = '/public/login';" +
+                    "</script></body></html>";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_HTML)
+                    .body(htmlResponse);
         } catch (Exception e) {
-            return "redirect:/signup?error";
+            String htmlResponse = "<!DOCTYPE html>" +
+                    "<html><head><title>Redirecting...</title></head>" +
+                    "<body><script>" +
+                    "window.location.href = '/public/signup';" +
+                    "</script></body></html>";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_HTML)
+                    .body(htmlResponse);
         }
     }
 
@@ -117,9 +144,6 @@ public class AuthController {
                     ));
         }
     }
-    @GetMapping("/index")
-    public String index() {
-        return "index";  // This will look for index.html in templates folder
-    }
+
 
 }
