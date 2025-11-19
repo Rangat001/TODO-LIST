@@ -14,7 +14,7 @@ target/
 .sts4-cache
 *.yml
 *.log
-*.proprties
+*.properties
 
 
 ### IntelliJ IDEA ###
